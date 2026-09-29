@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Вход — DuoAtHome{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+
+{% block content %}
+<div class="auth-card">
+    <div class="auth-logo">Duo<span>AtHome</span></div>
+    <h1 class="auth-title">Вход</h1>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Войти</button>
+    </form>
+    <p class="auth-switch">Нет аккаунта? <a href="{% url 'account:register' %}">Зарегистрироваться</a></p>
+</div>
+{% endblock %}

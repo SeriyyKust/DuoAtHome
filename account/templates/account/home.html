@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная — DuoAtHome{% endblock %}
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+<div class="layout">
+    <nav class="navbar">
+        <div class="navbar__user">
+            {# Заглушка под фото пользователя: пока буква никнейма в зелёном круге #}
+            <div class="navbar__avatar">{{ request.user.username|first|upper }}</div>
+            <span class="navbar__nickname">{{ request.user.username }}</span>
+        </div>
+        <form method="post" action="{% url 'account:logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline navbar__logout">Выход</button>
+        </form>
+    </nav>
+
+    <main class="main">
+        {# Здесь будет статистика пользователя #}
+    </main>
+
+    <footer class="footer">
+        {# Footer (пока пустой) #}
+    </footer>
+</div>
+{% endblock %}
