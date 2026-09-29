@@ -73,6 +73,26 @@ a:hover {
     color: var(--color-danger);
 }
 
+.btn-ghost {
+    background-color: transparent;
+    color: var(--color-text-muted);
+}
+
+.btn-ghost:hover {
+    color: var(--color-text);
+}
+
+.btn-danger {
+    background-color: transparent;
+    border-color: var(--color-danger);
+    color: var(--color-danger);
+}
+
+.btn-danger:hover {
+    background-color: var(--color-danger);
+    color: #0e0f10;
+}
+
 /* ---------- Страницы входа/регистрации ---------- */
 
 .auth-page {
@@ -206,6 +226,28 @@ a:hover {
     word-break: break-all;
 }
 
+.navbar__avatar--photo {
+    object-fit: cover;
+}
+
+.navbar__edit {
+    display: block;
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text);
+    text-align: center;
+}
+
+.navbar__edit:hover {
+    border-color: var(--color-green);
+    color: var(--color-green);
+    text-decoration: none;
+}
+
 /* Основная часть (пока пустая — будет статистика) */
 
 .main {
@@ -217,4 +259,50 @@ a:hover {
 .footer {
     min-height: 60px;
     border-top: 1px solid var(--color-border);
+}
+
+/* ---------- Страница редактирования профиля ---------- */
+
+.panel {
+    max-width: 560px;
+    background-color: var(--color-panel);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 28px;
+}
+
+.panel__title {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.edit-form p {
+    margin-bottom: 14px;
+}
+
+.edit-form label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--color-text-muted);
+    margin-bottom: 6px;
+}
+
+.edit-form .form-input[type="file"] {
+    padding: 8px;
+    background-color: var(--color-panel-light);
+}
+
+.edit-form__actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.danger-zone {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--color-border);
 }

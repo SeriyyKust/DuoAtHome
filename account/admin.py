@@ -7,9 +7,9 @@ from .models import Account
 @admin.register(Account)
 class AccountAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-        ('Дополнительно', {'fields': ('birthday',)}),
+        ('Дополнительно', {'fields': ('birthday', 'photo')}),
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ('Дополнительно', {'fields': ('birthday',)}),
+        ('Дополнительно', {'fields': ('birthday', 'photo')}),
     )
-    list_display = ('username', 'email', 'first_name', 'last_name', 'birthday')
+    list_display = ('username', 'email', 'first_name', 'last_name', 'birthday', 'photo')

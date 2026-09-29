@@ -5,17 +5,7 @@
 
 {% block content %}
 <div class="layout">
-    <nav class="navbar">
-        <div class="navbar__user">
-            {# Заглушка под фото пользователя: пока буква никнейма в зелёном круге #}
-            <div class="navbar__avatar">{{ request.user.username|first|upper }}</div>
-            <span class="navbar__nickname">{{ request.user.username }}</span>
-        </div>
-        <form method="post" action="{% url 'account:logout' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline navbar__logout">Выход</button>
-        </form>
-    </nav>
+    {% include 'account/_navbar.html' %}
 
     <main class="main">
         {# Здесь будет статистика пользователя #}

@@ -26,3 +26,26 @@ class RegistrationForm(UserCreationForm):
         self.fields['password2'].label = 'Повторите пароль'
         for field in self.fields.values():
             field.widget.attrs.setdefault('class', 'form-input')
+
+
+class AccountEditForm(forms.ModelForm):
+    """Редактирование профиля на странице аккаунта."""
+
+    class Meta:
+        model = Account
+        fields = ('photo', 'username', 'first_name', 'last_name', 'birthday')
+        labels = {
+            'photo': 'Фото',
+            'username': 'Никнейм',
+            'first_name': 'Имя',
+            'last_name': 'Фамилия',
+            'birthday': 'Дата рождения',
+        }
+        widgets = {
+            'birthday': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.setdefault('class', 'form-input')
