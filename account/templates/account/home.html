@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная — DuoAtHome{% endblock %}
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+<div class="layout">
+    {% include 'account/_navbar.html' %}
+
+    <main class="main">
+        {{ activity_data|json_script:"activity-data" }}
+        {{ words_stats|json_script:"words-data" }}
+
+        <section class="panel stat-block">
+            <h2 class="stat-block__title">Активность</h2>
+
+            <div class="heatmap">
+                <div class="heatmap__scroll">
+                    <div class="heatmap__inner">
+                        <div class="heatmap__months" id="heatmap-months"></div>
+                        <div class="heatmap__body">
+                            <div class="heatmap__weekdays">
+                                <span>Пн</span><span></span><span>Ср</span>
+                                <span></span><span>Пт</span><span></span><span></span>
+                            </div>
+                            <div class="heatmap__grid" id="heatmap-grid"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="heatmap__legend">
+                    <span>Меньше</span>
+                    <i class="heat-cell l0"></i><i class="heat-cell l1"></i>
+                    <i class="heat-cell l2"></i><i class="heat-cell l3"></i>
+                    <i class="heat-cell l4"></i>
+                    <span>Больше</span>
+                </div>
+            </div>
+
+            <div class="barchart">
+                <div class="barchart__header">
+                    <h3 class="barchart__title">Активность за период</h3>
+                    <div class="chart-switch" id="bar-period-switch">
+                        <button type="button" data-period="week" class="chart-switch__btn is-active">Неделя</button>
+                        <button type="button" data-period="month" class="chart-switch__btn">Месяц</button>
+                        <button type="button" data-period="year" class="chart-switch__btn">Год</button>
+                    </div>
+                </div>
+                <div class="barchart__canvas" id="barchart"></div>
+            </div>
+        </section>
+
+        <section class="panel stat-block">
+            <h2 class="stat-block__title">Слова</h2>
+
+            <div class="words-summary">
+                <div class="words-summary__indicators">
+                    <div class="indicator">
+                        <span class="indicator__dot indicator__dot--learned"></span>
+                        <span class="indicator__label">Выучено слов</span>
+                        <b class="indicator__value">{{ words_stats.learned }}</b>
+                    </div>
+                    <div class="indicator">
+                        <span class="indicator__dot indicator__dot--review"></span>
+                        <span class="indicator__label">На повторении</span>
+                        <b class="indicator__value">{{ words_stats.review }}</b>
+                    </div>
+                    <div class="indicator">
+                        <span class="indicator__dot indicator__dot--tolearn"></span>
+                        <span class="indicator__label">К изучению</span>
+                        <b class="indicator__value">{{ words_stats.to_learn }}</b>
+                    </div>
+                </div>
+                <div class="words-summary__chart">
+                    <svg id="donut" viewBox="0 0 160 160" role="img" aria-label="Распределение слов"></svg>
+                </div>
+            </div>
+
+            <div class="words-tables">
+                <div class="words-table">
+                    <h3 class="words-table__title">Последние выученные слова</h3>
+                    <table class="table">
+                        <thead>
+                            <tr><th>Слово</th><th>Перевод</th><th>Выучено</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for w in words_stats.recent %}
+                            <tr>
+                                <td class="table__word">{{ w.word }}</td>
+                                <td>{{ w.translation }}</td>
+                                <td class="table__muted">{{ w.days_ago }} дн. назад</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="words-table">
+                    <h3 class="words-table__title">Слова с большим количеством ошибок</h3>
+                    <table class="table">
+                        <thead>
+                            <tr><th>Слово</th><th>Перевод</th><th>Ошибок</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for w in words_stats.problem %}
+                            <tr>
+                                <td class="table__word">{{ w.word }}</td>
+                                <td>{{ w.translation }}</td>
+                                <td class="table__muted">{{ w.mistakes }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        {# Footer (пока пустой) #}
+    </footer>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'account/js/stats.js' %}?v=2" defer></script>
+{% endblock %}

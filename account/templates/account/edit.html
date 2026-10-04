@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование профиля — DuoAtHome{% endblock %}
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+<div class="layout">
+    {% include 'account/_navbar.html' %}
+
+    <main class="main">
+        <div class="panel">
+            <h1 class="panel__title">Редактирование профиля</h1>
+
+            <form method="post" enctype="multipart/form-data" novalidate class="edit-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="edit-form__actions">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <a href="{% url 'account:home' %}" class="btn btn-ghost">Отмена</a>
+                </div>
+            </form>
+
+            <div class="danger-zone">
+                <form method="post" action="{% url 'account:delete' %}"
+                      onsubmit="return confirm('Удалить аккаунт полностью? Действие необратимо.');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Удалить аккаунт</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        {# Footer (пока пустой) #}
+    </footer>
+</div>
+{% endblock %}

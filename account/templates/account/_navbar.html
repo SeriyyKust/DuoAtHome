@@ -1,0 +1,19 @@
+<nav class="navbar">
+    <div>
+        <div class="navbar__user">
+            {% if request.user.photo %}
+                <img class="navbar__avatar navbar__avatar--photo"
+                     src="{{ request.user.photo.url }}"
+                     alt="Фото {{ request.user.username }}">
+            {% else %}
+                <div class="navbar__avatar">{{ request.user.username|first|upper }}</div>
+            {% endif %}
+            <span class="navbar__nickname">{{ request.user.username }}</span>
+        </div>
+        <a class="navbar__edit" href="{% url 'account:edit' %}">Редактировать профиль</a>
+    </div>
+    <form method="post" action="{% url 'account:logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline navbar__logout">Выход</button>
+    </form>
+</nav>

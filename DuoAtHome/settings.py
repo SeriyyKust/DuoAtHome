@@ -32,6 +32,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Пользовательская модель аккаунта
+AUTH_USER_MODEL = 'account.Account'
+
+# Куда направлять неаутентифицированных пользователей и после входа/выхода
+LOGIN_URL = 'account:login'
+LOGIN_REDIRECT_URL = 'account:home'
+LOGOUT_REDIRECT_URL = 'account:login'
+
 
 # Application definition
 
@@ -108,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -121,6 +129,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Загруженные файлы пользователей (фото и т.п.)
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Email
