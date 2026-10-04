@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Слова — DuoAtHome{% endblock %}
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+<div class="layout">
+    {% include 'account/_navbar.html' %}
+
+    <main class="main">
+        <div class="panel panel--wide">
+            <h1 class="panel__title">Слова</h1>
+
+            <form method="get" class="filter-bar">
+                <div class="filter-bar__item">
+                    <label for="filter-direction">Перевод</label>
+                    <select name="direction" id="filter-direction" class="form-input">
+                        <option value="en-ru" {% if current.direction == 'en-ru' %}selected{% endif %}>ENG -&gt; RU</option>
+                        <option value="ru-en" {% if current.direction == 'ru-en' %}selected{% endif %}>RU -&gt; ENG</option>
+                    </select>
+                </div>
+
+                <div class="filter-bar__item">
+                    <label for="filter-pos">Часть речи</label>
+                    <select name="pos" id="filter-pos" class="form-input">
+                        <option value="">Все</option>
+                        {% for value, label in pos_choices %}
+                        <option value="{{ value }}" {% if current.pos == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-bar__item">
+                    <label for="filter-author">Автор</label>
+                    <select name="author" id="filter-author" class="form-input">
+                        <option value="">Все</option>
+                        <option value="system" {% if current.author == 'system' %}selected{% endif %}>System</option>
+                        {% for a in authors %}
+                        <option value="{{ a.pk }}" {% if current.author == a.pk|stringformat:'s' %}selected{% endif %}>{{ a.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-bar__item">
+                    <label for="filter-status">Статус</label>
+                    <select name="status" id="filter-status" class="form-input">
+                        <option value="">Все</option>
+                        <option value="none" {% if current.status == 'none' %}selected{% endif %}>Без статуса</option>
+                        {% for value, label in status_choices %}
+                        <option value="{{ value }}" {% if current.status == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary filter-bar__apply">Применить</button>
+            </form>
+
+            <div class="table-scroll">
+            <table class="table words-table">
+                <thead>
+                    <tr>
+                        <th>Слово</th>
+                        <th>Перевод</th>
+                        <th>Часть речи</th>
+                        <th>Статус</th>
+                        <th>Автор</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for word in words %}
+                    <tr>
+                        <td class="table__word">{{ word.title }}</td>
+                        <td>
+                            {% for t in word.translations.all %}
+                                {{ t.title }}{% if not forloop.last %},{% endif %}
+                            {% empty %}
+                                <span class="table__muted">—</span>
+                            {% endfor %}
+                        </td>
+                        <td>{{ word.get_part_of_speech_display }}</td>
+                        <td>
+                            {% if word.user_status == 'learned' %}
+                                <span class="badge badge--learned">Изучено</span>
+                            {% elif word.user_status == 'in_progress' %}
+                                <span class="badge badge--in-progress">В процессе</span>
+                            {% else %}
+                                <span class="badge badge--none">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="table__muted">
+                            {% if word.author %}{{ word.author.username }}{% else %}system{% endif %}
+                        </td>
+                        <td class="words-table__actions">
+                            <form method="post" action="{% url 'words:learn' word.pk %}">
+                                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-small">Изучать</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="table__muted">Слов не найдено — измените фильтры.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        {# Footer (пока пустой) #}
+    </footer>
+</div>
+{% endblock %}
