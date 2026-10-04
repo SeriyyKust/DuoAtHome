@@ -5,6 +5,7 @@ from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
 from .forms import AccountEditForm, RegistrationForm
+from .stats import get_activity_data, get_words_stats
 
 
 def register(request):
@@ -34,8 +35,12 @@ class AccountLogoutView(LogoutView):
 
 @login_required
 def home(request):
-    """Главная страница пользователя (пока пустая, будет статистика)."""
-    return render(request, 'account/home.html')
+    """Главная страница пользователя со статистикой (пока на заглушках)."""
+    context = {
+        'activity_data': get_activity_data(request.user),
+        'words_stats': get_words_stats(request.user),
+    }
+    return render(request, 'account/home.html', context)
 
 
 @login_required
