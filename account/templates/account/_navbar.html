@@ -11,6 +11,7 @@
             <span class="navbar__nickname">{{ request.user.username }}</span>
         </div>
         <a class="navbar__edit" href="{% url 'account:edit' %}">Редактировать профиль</a>
+        <a class="navbar__edit" href="{% url 'words:list' %}">Слова</a>
     </div>
     <form method="post" action="{% url 'account:logout' %}">
         {% csrf_token %}

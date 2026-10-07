@@ -19,9 +19,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+admin.site.site_header = 'DuoAtHome — админ-панель'
+admin.site.site_title = 'DuoAtHome admin'
+admin.site.index_title = 'Управление данными'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('account.urls')),
+    path('words/', include('words.urls')),
 ]
 
 if settings.DEBUG:
